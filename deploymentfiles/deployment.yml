@@ -1,25 +1,25 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mc-app
+  name: firstdeployment
   labels:
-    app: mc-app
+    env: prod
+
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: mc-app
+      app: testapp
+
   template:
     metadata:
+      name: pod1
       labels:
-        app: mc-app
+        app: testapp
     spec:
       containers:
-      - name: mc-app
-        image: vamsi01/batch13:3
-        ports:
-        - containerPort: 8080
-
-  
+        - name: firstcontainer
+          image: vamsi01/javaproject:tag
+          ports:
+            - containerPort: 8080
 
