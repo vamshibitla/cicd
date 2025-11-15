@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mc-app
+  labels:
+    app: mc-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mc-app
+  template:
+    metadata:
+      labels:
+        app: mc-app
+    spec:
+      containers:
+      - name: mc-app
+        image: vamsi01/batch13:3
+        ports:
+        - containerPort: 8080
+
+  
+
