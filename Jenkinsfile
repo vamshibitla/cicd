@@ -10,7 +10,7 @@ pipeline {
       stage('checkout') {
             steps {
                 echo 'Cloning GIT HUB Repo '
-	git branch: 'master', url: 'https://github.com/vamshibitla/cicd.git'
+	git branch: 'main', url: 'https://github.com/vamshibitla/cicd.git'
             }  
         }
 	
@@ -53,20 +53,28 @@ pipeline {
 	
 	
        stage('Push to Dockerhub') {
-            steps {
-	 script {
-	withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) 
-	{
-            sh 'docker login -u vamsi01 -p ${dockerhub}'
-	
-	 }
-	   sh 'docker push vamsi01/javaproject:${BUILD_NUMBER}'
-	   
-           
-	}
-	
+    steps {
+        script {
+            withCredentials([
+                usernamePassword(
+                    credentialsId: 'dockerhub',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )
+            ]) {
+                sh '''
+                    echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                    
+                    # Build image
+                    docker build -t $DOCKER_USER/javaproject:${BUILD_NUMBER} .
+                    
+                    # Push image
+                    docker push $DOCKER_USER/javaproject:${BUILD_NUMBER}
+                '''
             }
         }
+    }
+}
 	
 	
     stage('Update Deployment File') {
@@ -102,4 +110,5 @@ pipeline {
     }
 
 }
+
 
