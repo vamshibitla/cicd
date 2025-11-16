@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: firstcontainer
-          image: vamsi01/javaproject:tag
+          image: vamsi01/javaproject:6
           ports:
             - containerPort: 8080
 
