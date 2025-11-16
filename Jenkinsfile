@@ -41,7 +41,24 @@ pipeline {
             }
         }
 	
-	    
+	    stage('Nexus Deploy') {
+			steps {
+				echo "Deploying artifact to Nexus..."
+
+				withCredentials([usernamePassword(
+				credentialsId: 'nexus-cred',   // <-- your Jenkins credential ID
+				usernameVariable: 'NEXUS_USER',
+				passwordVariable: 'NEXUS_PASS'
+				)]) {
+
+				sh '''
+                mvn clean deploy -DskipTests=true \
+                  -DaltDeploymentRepository=nexus-releases::default::http://52.87.44.103:8081/repository/nexus-repo/ \
+                  -Dusername=$NEXUS_USER -Dpassword=$NEXUS_PASS
+				'''
+        }
+    }
+}
 
 	
         stage('Docker Image') {
@@ -110,5 +127,3 @@ pipeline {
     }
 
 }
-
-
