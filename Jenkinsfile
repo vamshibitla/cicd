@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Cloning GIT HUB Repo'
-                git branch: 'master', url: 'https://github.com/vamshib/cicd.git'
+                git branch: 'master', url: 'https://github.com/vamshibitla/cicd.git'
             }
         }
 
