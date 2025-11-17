@@ -26,7 +26,7 @@ pipeline {
 				sh '''
 				echo "Running Sonar scan..."
 					mvn sonar:sonar \
-					-Dsonar.host.url=http://52.87.44.103:9000 \
+					-Dsonar.host.url=http://18.212.199.8:9000 \
 					-Dsonar.login=$SONAR_TOKEN
 				'''
             }
@@ -53,7 +53,7 @@ pipeline {
 
 				sh '''
                 mvn clean deploy -DskipTests=true \
-                  -DaltDeploymentRepository=nexus-releases::default::http://52.87.44.103:8081/repository/nexus-repo/ \
+                  -DaltDeploymentRepository=nexus-repo::default::http://18.212.199.8:8081/repository/nexus-repo/ \
                   -Dusername=$NEXUS_USER -Dpassword=$NEXUS_PASS
 				'''
         }
